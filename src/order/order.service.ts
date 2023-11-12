@@ -36,11 +36,9 @@ export class OrderService {
     const numericRegex = /^[0-9]+$/;
     const month = card.expDate.substring(0, 2);
     const year = card.expDate.substring(2, 4);
-    console.log(year);
     const currentDate = new Date();
     const currentYear = currentDate.getFullYear();
     const currentYearTwoDigits = currentYear % 100;
-    console.log(currentYearTwoDigits);
     const currentMonth = currentDate.getMonth() + 1;
     if (Number(year) < currentYearTwoDigits){
       throw new HttpException('Card expiredss', HttpStatus.EXPECTATION_FAILED);
@@ -97,7 +95,6 @@ export class OrderService {
   async checkLoginStatus(sessionId: string): Promise<any> {
     const user = await this.valueExists(sessionId);
     const valid = user != null;
-    console.log(user);
     return { "user": user, "connected": valid };
   }
 

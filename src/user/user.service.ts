@@ -16,7 +16,6 @@ export class UserService {
   async login(user: User): Promise<string> {
     const uuidString: string = uuidv4();
     const res = await this.userRepository.findOne({ where: { "playerId": user.playerId } });
-    console.log(res);
     if (!res || this.decrypt(res.password, user.playerId) != user.password){
       throw new UnauthorizedException(`The username or password is not correct`);
     }
@@ -26,7 +25,6 @@ export class UserService {
 
   async addUser(user: User): Promise<User> {
     // Encrypt
-    console.log(user);
     const encryptedText = this.encrypt(user.password, user.playerId);
     const res = this.userRepository.create({
       "playerId": user.playerId,

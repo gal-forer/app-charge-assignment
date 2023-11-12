@@ -43,7 +43,6 @@ export class OfferService {
     if (!res){
       throw new NotFoundException(`Couldn't find an Offer with id ${id} to update`);
     }
-    console.log(offer);
     Object.assign(res, offer);
     return await this.offerRepository.save(res);
   }

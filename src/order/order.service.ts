@@ -41,7 +41,7 @@ export class OrderService {
     const currentYearTwoDigits = currentYear % 100;
     const currentMonth = currentDate.getMonth() + 1;
     if (Number(year) < currentYearTwoDigits){
-      throw new HttpException('Card expiredss', HttpStatus.EXPECTATION_FAILED);
+      throw new HttpException('Card expired', HttpStatus.EXPECTATION_FAILED);
     }
     else if (Number(year) == currentYearTwoDigits && Number(month) <= currentMonth){
       throw new HttpException('Card expired', HttpStatus.EXPECTATION_FAILED);

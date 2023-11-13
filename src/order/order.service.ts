@@ -86,7 +86,7 @@ export class OrderService {
       throw new NotFoundException(`Couldn't find an Offer with offerSetId ${offerSetId}`);
     }
     if (offer.availability <= 0){
-      throw new HttpException('Offer is not available', HttpStatus.I_AM_A_TEAPOT); // lol
+      throw new HttpException('Offer is not available', HttpStatus.I_AM_A_TEAPOT);
     }
     offer.availability -= 1;
     await this.offerService.updateOffer(offer, offerSetId);

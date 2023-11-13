@@ -1,4 +1,4 @@
-import { Injectable, UnauthorizedException } from "@nestjs/common";
+import { HttpException, HttpStatus, Injectable, NotFoundException, UnauthorizedException } from "@nestjs/common";
 import { v4 as uuidv4 } from 'uuid';
 import { InjectRepository } from "@nestjs/typeorm";
 import { Repository } from "typeorm";
@@ -24,7 +24,10 @@ export class UserService {
   }
 
   async addUser(user: User): Promise<User> {
-    // Encrypt
+    const find = await this.userRepository.findOne({ where: { "playerId": user.playerId } });
+    if (find){
+      throw new HttpException('User already exists', HttpStatus.NOT_ACCEPTABLE);
+    }
     const encryptedText = this.encrypt(user.password, user.playerId);
     const res = this.userRepository.create({
       "playerId": user.playerId,

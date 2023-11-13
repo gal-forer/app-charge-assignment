@@ -1,4 +1,4 @@
-import { Injectable, NotFoundException, UnauthorizedException } from "@nestjs/common";
+import { HttpException, HttpStatus, Injectable, NotFoundException, UnauthorizedException } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { Repository } from "typeorm";
 import { Offer } from "./offer.entity";
@@ -34,6 +34,10 @@ export class OfferService {
   }
 
   async addOffer(offer: Offer): Promise<Offer>{
+    const find = await this.offerRepository.findOne({ where: { "offerSetId": offer.offerSetId } });
+    if (find){
+      throw new HttpException(`Offer with SetId ${offer.offerSetId} already exists`, HttpStatus.NOT_ACCEPTABLE);
+    }
     const res = this.offerRepository.create(offer);
     return await this.offerRepository.save(res);
   }
@@ -41,7 +45,7 @@ export class OfferService {
   async updateOffer(offer: Offer, id: string): Promise<Offer>{
     const res = await this.offerRepository.findOne({ where: { "offerSetId": id } });
     if (!res){
-      throw new NotFoundException(`Couldn't find an Offer with id ${id} to update`);
+      throw new NotFoundException(`Couldn't find an Offer with id  ${id} to update`);
     }
     Object.assign(res, offer);
     return await this.offerRepository.save(res);

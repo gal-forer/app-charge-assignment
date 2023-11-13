@@ -1,5 +1,6 @@
-import { Entity, Column, PrimaryGeneratedColumn, OneToMany } from "typeorm";
-import { IsNotEmpty, IsNumber, IsPositive, IsString } from "class-validator";
+import { Entity, Column, PrimaryGeneratedColumn } from "typeorm";
+import { IsNumber, IsOptional, IsPositive, IsString, ValidateNested } from "class-validator";
+import { ProductDTO } from "./product.dto";
 
 @Entity()
 export class Offer {
@@ -9,42 +10,43 @@ export class Offer {
 
   @Column()
   @IsString()
-  @IsNotEmpty()
+  @IsOptional()
   gameId: string;
 
 
   @Column()
   @IsNumber()
   @IsPositive()
-  @IsNotEmpty()
+  @IsOptional()
   availability: number;
 
   @Column()
   @IsString()
-  @IsNotEmpty()
+  @IsOptional()
   offerSetName: string;
 
   @Column({unique: true})
   @IsString()
-  @IsNotEmpty()
+  @IsOptional()
   offerSetId: string;
 
   @Column()
   @IsString()
-  @IsNotEmpty()
+  @IsOptional()
   sku: string;
 
   @Column()
   @IsString()
-  @IsNotEmpty()
+  @IsOptional()
   priceInCents: number;
 
   @Column()
   @IsString()
-  @IsNotEmpty()
+  @IsOptional()
   currency: string;
 
   @Column({ type: 'simple-json' , nullable: true})
-  @IsNotEmpty()
-  products: { amount: number; sku: string, name: string }[];
+  @ValidateNested()
+  @IsOptional()
+  products: ProductDTO[];
 }

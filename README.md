@@ -66,9 +66,7 @@ API Swagger documentation is available at http://localhost:3000/api
   --header 'Content-Type: application/json' \
   --data '{
   "gameId": "33",
-  "availability": 191
-
-}'`
+  "availability": 191 }'`
 
 * Delete an offer: `curl --location --request DELETE 'localhost:3000/offers/6666' \
   --data ''`
